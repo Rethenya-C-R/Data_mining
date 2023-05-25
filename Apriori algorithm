@@ -1,0 +1,14 @@
+from apyori import apriori
+import pandas as pd
+data=pd.read_csv(r"C:\Users\Admin\Downloads\apriori.csv",header=None)
+data
+data.shape
+records=[]
+for i in range(0,22):
+ records.append([str(data.values[i,j]) for j in range(0,6)])
+print(records)
+ass_r=apriori(records,min_support=0.50,min_confidence=0.7,min_lift=1.1,min_length=2)
+f = list(ass_r)
+for i in f:
+ print(i)
+ print("-------------------------------")
