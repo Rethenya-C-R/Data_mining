@@ -1,0 +1,31 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+from sklearn.metrics import classification_report, accuracy_score, precision_score, recall_score, 
+f1_score
+from sklearn.metrics import confusion_matrix
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+data = pd.read_csv("Star3642_balanced.csv")
+data.shape
+data.head()
+data.describe(include = "all")
+data.isnull().sum()
+X = data.loc[0:3642,["Vmag","Plx","B-V","Amag"]]
+Y = data.loc[0:3642,["TargetClass"]]
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, random_state=0, train_size = 0.70)
+from sklearn.tree import DecisionTreeClassifier
+dec_tree = DecisionTreeClassifier(random_state=0, max_depth = 3)
+dt = dec_tree.fit(X_train,Y_train)
+Y_pred_dt = dec_tree.predict(X_test)
+print("accuracy of Decision tree = ", accuracy_score(Y_test,Y_pred_dt))
+print("precision of Decision Tree = ",precision_score(Y_test,Y_pred_dt, average = "weighted"))
+print("recall of Decision Tree Classifier = ", recall_score(Y_test,Y_pred_dt, average = "weighted"))
+print("f1 of of Decision Tree Classifier = ", f1_score(Y_test,Y_pred_dt, average = "weighted"))
+print("cnf matrix = ", confusion_matrix(Y_test, Y_pred_dt))
+sns.heatmap(data = confusion_matrix(Y_test, Y_pred_dt), annot = True, fmt='d')
+plt.figure(figsize=(20,15))
+from sklearn import tree
+tree.plot_tree(dec_tree.fit(X_train, Y_train))
+plt.show()
