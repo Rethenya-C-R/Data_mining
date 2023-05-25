@@ -1,0 +1,35 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+from sklearn.metrics import classification_report, accuracy_score, precision_score, recall_score, 
+f1_score
+from sklearn.metrics import confusion_matrix
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from google.colab import drive
+drive.mount("/content/drive")
+cd/content/drive/My Drive/LAB/dataset
+dataset = pd.read_csv("diabetes.csv")
+dataset.head(5)
+dataset.shape
+from sklearn.linear_model import LogisticRegression
+X = dataset.loc[0:768, ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 
+'DiabetesPedigreeFunction', 'Age']]
+Y = dataset.loc[0:768,['Outcome']]
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, random_state=0, train_size = 0.75)
+logreg = LogisticRegression()
+logreg.fit(X_train, Y_train)
+Y_pred = logreg.predict(X_test)
+Y_pred_train = logreg.predict(X_train)
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import precision_score
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import recall_score
+cnf_matrix = confusion_matrix(Y_test, Y_pred)
+print(cnf_matrix)
+sns.heatmap(pd.DataFrame(cnf_matrix), annot = True, cmap = "YlGnBu", fmt = 'g')
+print('Precision score = ',precision_score(Y_test,Y_pred))
+print('Accuracy score = ',accuracy_score(Y_test,Y_pred))
+print('Recall score = ',recall_score(Y_test,Y_pred))
+print("F1 score = ", f1_score(Y_test,Y_pred))
