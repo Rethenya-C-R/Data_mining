@@ -1,0 +1,29 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+from sklearn.metrics import classification_report, accuracy_score, precision_score, recall_score, 
+f1_score
+from sklearn.metrics import confusion_matrix
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+dataset = pd.read_csv("heart.csv")
+dataset.columns
+inst = dataset[['thalach', 'oldpeak']]
+X = np.array(inst)
+from sklearn.cluster import KMeans
+kmeans = KMeans(n_clusters=3, random_state=0)
+kmeans.fit(X)
+l = kmeans.labels_
+print(l[:50])
+centers = kmeans.cluster_centers_
+x_c = [i[0] for i in centers]
+y_c = [i[1] for i in centers]
+sns.scatterplot('thalach', 'oldpeak', data = inst, hue = l)
+sns.scatterplot(x_c, y_c)
+plt.show()
+x_c = [i[0] for i in centers]
+y_c = [i[1] for i in centers]
+print(centers)
+print(y_c)
+Output Screens
