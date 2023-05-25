@@ -1,0 +1,30 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+from sklearn.metrics import classification_report, accuracy_score, precision_score, recall_score, 
+f1_score
+from sklearn.metrics import confusion_matrix
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+data = pd.read_csv("heart.csv")
+data.shape
+data.head()
+data.describe(include = "all")
+data.isnull().sum()
+Y = data['target']
+print(data.columns)
+X = data[['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach',
+ 'exang', 'oldpeak', 'slope', 'ca', 'thal']
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, random_state=0, train_size = 0.70, stratify = 
+Y
+from sklearn.naive_bayes import GaussianNB as nb
+model = nb()
+model.fit(X_train, Y_train)
+Y_pred = model.predict(X_test)
+print("accuracy = ", accuracy_score(Y_test,Y_pred))
+print("precision = ",precision_score(Y_test,Y_pred, average = "weighted"))
+print("recall = ", recall_score(Y_test,Y_pred, average = "weighted"))
+print("f1 score = ", f1_score(Y_test,Y_pred, average = "weighted"))
+print("cnf matrix = ", confusion_matrix(Y_test, Y_pred))
+sns.heatmap(data = confusion_matrix(Y_test, Y_pred), annot = True, fmt='d', cmap = 'PuBu')
