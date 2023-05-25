@@ -1,0 +1,33 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+from google.colab import drive
+drive.mount("/content/drive")
+cd/content/drive/My Drive/LAB/dataset
+dataset = pd.read_csv("diabetes.csv")
+dataset.head()
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report, accuracy_score, precision_score, f1_score, 
+recall_score
+from sklearn.metrics import confusion_matrix
+from sklearn.preprocessing import StandardScaler
+X = dataset.loc[0:768, ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 
+'DiabetesPedigreeFunction', 'Age']]
+Y = dataset.loc[0:768,['Outcome']]
+from sklearn.model_selection import train_test_split
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, random_state=0, train_size = 0.70)
+from sklearn.neighbors import KNeighborsClassifier
+classifier = KNeighborsClassifier(n_neighbors = 5, metric = 'minkowski', p = 2) 
+classifier.fit(X_train, Y_train)
+Y_pred=classifier.predict(X_test)
+Y_pred = classifier.predict(X_test)
+Y_pred_train = classifier.predict(X_train)
+cnf_matrix = confusion_matrix(Y_test, Y_pred)
+print(cnf_matrix)
+print("accuracy = ", accuracy_score(Y_test, Y_pred))
+print("precision = ", precision_score(Y_test, Y_pred, average = 'weighted'))
+print('recall = ', recall_score(Y_test, Y_pred, average = 'weighted'))
+print('f1_score = ', f1_score(Y_test, Y_pred, average = 'weighted'))
+sns.heatmap(pd.DataFrame(cnf_matrix), annot = True, cmap = "YlGnBu", fmt = 'g')
