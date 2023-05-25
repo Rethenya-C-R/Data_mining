@@ -1,0 +1,29 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+db = pd.read_csv(r"C:\Users\Siddhartha Devan V\Downloads\Car_sales.csv")
+db.head()
+db.info
+correlation = db.corr()
+plt.figure(figsize = (12,12))
+sns.heatmap(data = correlation, annot = True, cmap = 'YlGnBu')
+db.drop("Horsepower", axis = "columns", inplace = True)
+correlation = db.corr()
+plt.figure(figsize = (12,12))
+sns.heatmap(data = correlation, annot = True, cmap = 'YlGnBu')
+from sklearn.metrics import classification_report, accuracy_score, precision_score, recall_score, 
+f1_score
+from sklearn.metrics import confusion_matrix
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+dataset = pd.read_csv("heart.csv")
+c = dataset.corr(method = 'pearson')
+plt.figure(figsize = (15, 12))
+sns.heatmap(data = c, annot = True, fmt = 'g')
+c = dataset.corr(method = 'kendall')
+plt.figure(figsize = (15, 12))
+sns.heatmap(data = c, annot = True, fmt = 'g', cmap = 'copper')
+c = dataset.corr(method = 'spearman')
+plt.figure(figsize = (15, 12))
+sns.heatmap(data = c, annot = True, fmt = 'g', cmap = 'coolwarm'
