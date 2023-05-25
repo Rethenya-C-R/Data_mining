@@ -83,3 +83,84 @@ Y= db["Price_in_thousands"]
 db.drop("Manufacturer", axis = 1, inplace = True)
 db.drop("Price_in_thousands", axis = 1, inplace = True)
 X = db.copy()
+
+#binning
+bin_edges = [0, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+bin_labels = ['0-19', '20-29', '30-39', '40-49', '50-59', '60-69', '70-79', '80-89', '90-100']
+
+#bining with mean:
+dataset['age_bin'] = pd.cut(dataset['age'], bins=bin_edges, labels=bin_labels)
+age_bin_means = dataset.groupby('age_bin')['stroke'].mean()
+
+print(age_bin_means)
+
+#BINNING WITH MEDIAN
+dataset = np.random.rand(100) * 100
+num_bins = 10
+bin_edges = np.linspace(0, 100, num_bins+1)
+bin_indices = np.digitize(dataset, bin_edges)
+bin_medians = [np.median(dataset[bin_indices == i]) for i in range(1, num_bins+1)]
+print(bin_medians)
+
+#BINNING WITH AVERAGE
+dataset = np.random.rand(100) * 100
+num_bins = 10
+bin_edges = np.linspace(0, 100, num_bins+1)
+bin_indices = np.digitize(dataset, bin_edges)
+bin_averages = [np.mean(dataset[bin_indices == i]) for i in range(1, num_bins+1)]
+print(bin_averages)
+
+#Standardization
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+x=dataset[['id', 'age', 'hypertension','avg_glucose_level','stroke']]  # Features 
+y=dataset['heart_disease']
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.30,random_state=100)
+scaler = StandardScaler()
+scaler.fit(x)
+X_transformed = scaler.transform(x)
+X_transformed_df = pd.DataFrame(X_transformed, columns=x.columns)
+print(X_transformed)
+print(X_transformed_df)
+
+#Normalization
+from sklearn.preprocessing import MinMaxScaler
+features_to_normalize = ['stroke', 'heart_disease']
+scaler = MinMaxScaler()
+scaler.fit(dataset[features_to_normalize])
+normalized_features = scaler.transform(dataset[features_to_normalize])
+dataset[features_to_normalize] = normalized_features
+print(dataset.head())
+
+INTERPOLATION:
+#LINEAR METHOD
+df=dataset.interpolate(method='linear',axis=0, limit=None)
+df
+#POLYNOMIAL METHOD
+df=dataset.interpolate(method='polynomial',axis=0, order=2)
+df
+#PAD METHOD 
+df=dataset.interpolate(method='pad',axis=0, limit=2)
+df
+
+ii) CLEANING: 
+#Dropna
+dataset.dropna()
+
+#Fiilna
+dataset.fillna(0)
+
+#Ffill
+da=dataset.ffill()
+da
+
+#Bbill
+dm=dataset.bfill()
+dm
+
+
+
+
+
+
+
