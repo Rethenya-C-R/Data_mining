@@ -1,0 +1,25 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+from sklearn.metrics import classification_report, accuracy_score, precision_score, recall_score, 
+f1_score
+from sklearn.metrics import confusion_matrix
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+dataset = pd.read_csv('heart.csv')
+dataset.columns
+inst = dataset[['thalach', 'oldpeak']]
+X = np.array(inst)
+from sklearn.preprocessing import StandardScaler as sc 
+scl = sc()
+X = scl.fit_transform(inst)
+print(X[:10])
+from sklearn.cluster import DBSCAN
+dbs = DBSCAN(eps = 0.3, min_samples = 30)
+dbs.fit(X)
+l = dbs.labels_
+print(l[:150])
+print(X.shape)
+X = X.reshape(2, 1025)
+sns.scatterplot(X[0], X[1], data = inst, hue = l, palette=['green','orange','red'])
