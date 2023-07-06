@@ -1,88 +1,22 @@
+from google.colab import drive
+drive.mount('/content/drive')
+cd/content/drive/My Drive/dataset
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-db = pd.read_csv(r"C:\Users\Siddhartha Devan V\Downloads\Car_sales.csv")
-db.head()
-db.info
-sns.heatmap(db.isnull())
-db.isnull().sum()
-db.shape
-db.drop_duplicates()
-db
-db.shape
-dbb=db.drop("Vehicle_type",axis=1)
-dbb
-dbb.shape
-db.describe()
-db.describe(include = 'all')
-db_sort = dbb.sort_values(by = 'Fuel_efficiency', ascending = False)
-db_sort
-mean=dbb["__year_resale_value"].mean()
-mean
-db.nunique()
-db1=db["__year_resale_value"].fillna(value=mean,inplace=True)
-db.isnull().sum()
-db["__year_resale_value"].fillna(mean)
-db.head(10)
-db.fillna({'Price_in_thousands':db['Price_in_thousands'].mean(),'Power_perf_factor':db['Power_perf_f
-actor'].mean(),'Curb_weight':db['Curb_weight'].mean(),'Fuel_efficiency':db['Fuel_efficiency'].mean()
-},inplace=True)
-db.Engine_size.fillna(method='backfill',inplace=True)
-db.Horsepower.fillna(method='pad',inplace=True)
-db.Fuel_capacity.fillna(method='ffill',inplace=True)
-db.Wheelbase.fillna(method='ffill',inplace=True)
-db.Width .fillna(method='bfill',inplace=True)
-db.Length .fillna(method='ffill',inplace=True)
-sns.heatmap(db.isnull(),yticklabels=False,cbar=False)
-dbb=db.drop(["Manufacturer","Model","Vehicle_type"],axis=1)
-dbb
-dbb.corr()
-db.isnull().sum()
-dataset = pd.read_csv(r"C:\Users\Siddhartha Devan V\Downloads\Car_sales.csv")
-dataset.Engine_size.isnull().sum()
-dataset.Engine_size.fillna(dataset["Engine_size"].mean(), inplace = True)
-eng = dataset["Engine_size"]
-print(plt.hist(dataset["Width"], bins = 3))
-dataset.corr()
+dataset=pd.read_csv("health.csv")
+dataset
 dataset.isnull().sum()
-dataset.Price_in_thousands.interpolate(method ='linear', limit_direction ='forward', inplace = True)
-dataset.isnull().sum()
-dataset.Power_perf_factor.interpolate(method ='linear', limit_direction ='backward', inplace = True)
-dataset.Horsepower.interpolate(method ='nearest', limit_direction ='backward', inplace = True)
-dataset.Fuel_efficiency.interpolate(method ='nearest', limit_direction ='forward', inplace = True)
-dataset.isnull().sum()
-correlation = db.corr()
-plt.figure(figsize = (12,12))
-sns.heatmap(data = correlation, annot = True, cmap = 'YlGnBu')
-db.drop("Horsepower", axis = "columns", inplace = True)
-correlation = db.corr()
-plt.figure(figsize = (12,12))
-sns.heatmap(data = correlation, annot = True, cmap = 'YlGnBu')
-db.columns
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-db.head()
-cols_to_drop = ["Model", "Latest_Launch"]
-db.drop(cols_to_drop, axis = "columns", inplace = True)
-cols_to_encode = ["Manufacturer", "Vehicle_type"]
-db.nunique()
-from sklearn.preprocessing import LabelEncoder
-enc = LabelEncoder()
-db['Vehicle_type'] = enc.fit_transform(db["Vehicle_type"])
-db.columns
-cols_to_scale = ['Sales_in_thousands', '__year_resale_value',
- 'Price_in_thousands', 'Engine_size', 'Wheelbase',
- 'Width', 'Length', 'Curb_weight', 'Fuel_capacity', 'Fuel_efficiency',
- 'Power_perf_factor']
-from sklearn.preprocessing import MinMaxScaler
-scaler = MinMaxScaler()
-db[cols_to_scale] = scaler.fit_transform(db[cols_to_scale])
-db.head()
-Y= db["Price_in_thousands"]
-db.drop("Manufacturer", axis = 1, inplace = True)
-db.drop("Price_in_thousands", axis = 1, inplace = True)
-X = db.copy()
+dataset["bmi"].fillna(130.55, inplace = True)
+dataset["heart_disease"].fillna(1, inplace = True)
+print(dataset.to_string())
+bfilled=dataset.bfill()
+ffilled=dataset.ffill()
+print(bfilled)
+print(ffilled)
+interpolated =dataset.interpolate()
+print(interpolated.isnull().sum())
 
 #binning
 bin_edges = [0, 20, 30, 40, 50, 60, 70, 80, 90, 100]
@@ -142,21 +76,6 @@ df
 #PAD METHOD 
 df=dataset.interpolate(method='pad',axis=0, limit=2)
 df
-
-ii) CLEANING: 
-#Dropna
-dataset.dropna()
-
-#Fiilna
-dataset.fillna(0)
-
-#Ffill
-da=dataset.ffill()
-da
-
-#Bbill
-dm=dataset.bfill()
-dm
 
 
 
